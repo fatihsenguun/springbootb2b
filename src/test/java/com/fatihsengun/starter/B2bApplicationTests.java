@@ -1,4 +1,4 @@
-package com.fatihsengun.b2b;
+package com.fatihsengun.starter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

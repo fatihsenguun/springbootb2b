@@ -1,4 +1,4 @@
-package com.fatihsengun.b2b;
+package com.fatihsengun.starter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
