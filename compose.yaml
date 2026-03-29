@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: 'postgres:17'
+    container_name: b2b-postgres
+    environment:
+      - POSTGRES_DB=b2b
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1
+    ports:
+      - '5433:5432' # Maps your machine's port 5433 to the container's Postgres port 5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data # Saves your data permanently
+
+volumes:
+  postgres-data:

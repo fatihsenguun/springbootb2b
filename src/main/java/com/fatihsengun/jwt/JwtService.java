@@ -17,7 +17,7 @@ public class JwtService {
 
     public static final String SECRET_KEY = "KtRH5USEtAUzn5f0tKNNDVCekRdE5Irpme7JP7CIi6o=KtRH5USEtAUzn5f0tKNNDVCekRdE5Irpme7JP7CIi6o=";
 
-    String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
