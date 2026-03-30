@@ -19,8 +19,6 @@ public class DtoRegister {
     @NotBlank
     public String fullName;
 
-    @NotNull
-    public Role role;
 
     @NotBlank
     @Email

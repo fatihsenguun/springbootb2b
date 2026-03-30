@@ -4,6 +4,7 @@ import com.fatihsengun.dto.AuthResponse;
 import com.fatihsengun.dto.DtoLogin;
 import com.fatihsengun.dto.DtoRegister;
 import com.fatihsengun.entity.User;
+import com.fatihsengun.enums.Role;
 import com.fatihsengun.jwt.JwtService;
 import com.fatihsengun.repository.UserRepository;
 import com.fatihsengun.service.IUserService;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -48,7 +50,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Transactional
     public AuthResponse register(DtoRegister dtoRegister) {
-        return null;
+        User user = new User();
+        user.setRole(Role.ROLE_USER);
+        user.setFullName(dtoRegister.getFullName());
+        user.setPassword(passwordEncoder.encode(dtoRegister.getPassword()));
+        user.setEmail(dtoRegister.getEmail());
+
+        userRepository.save(user);
+
+        DtoLogin dtoLogin = new DtoLogin();
+        dtoLogin.setEmail(dtoRegister.getEmail());
+        dtoLogin.setPassword(dtoRegister.getPassword());
+
+        return login(dtoLogin);
     }
 }
