@@ -4,6 +4,9 @@ import com.fatihsengun.dto.DtoRefreshToken;
 import com.fatihsengun.dto.DtoRefreshTokenIU;
 import com.fatihsengun.entity.RefreshToken;
 import com.fatihsengun.entity.User;
+import com.fatihsengun.exception.BaseException;
+import com.fatihsengun.exception.ErrorMessage;
+import com.fatihsengun.exception.MessageType;
 import com.fatihsengun.jwt.JwtService;
 import com.fatihsengun.repository.RefreshTokenRepository;
 import com.fatihsengun.service.IRefreshTokenService;
@@ -30,7 +33,6 @@ public class RefreshTokenService implements IRefreshTokenService {
         refreshToken.setUser(user);
         refreshToken.setExpireDate(LocalDateTime.now().plusDays(10));
 
-
         return refreshTokenRepository.save(refreshToken);
     }
 
@@ -43,13 +45,12 @@ public class RefreshTokenService implements IRefreshTokenService {
 
         RefreshToken optional = refreshTokenRepository
                 .findRefreshTokenByRefreshToken(dtoRefreshTokenIU.getRefreshToken())
-                .orElse(null);
+                .orElseThrow(() -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "RefreshToken not found")));
 
         if (isRefreshTokenExpired(optional.getExpireDate())) {
-            System.out.println("expired");
+          throw  new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION, "expired"));
         }
         String accessToken = jwtService.generateToken(optional.getUser());
-
         RefreshToken savedRefreshToken = saveRefreshToken(optional.getUser());
         refreshTokenRepository.delete(optional);
 

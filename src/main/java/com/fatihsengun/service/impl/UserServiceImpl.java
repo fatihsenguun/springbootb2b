@@ -6,6 +6,9 @@ import com.fatihsengun.dto.DtoRegister;
 import com.fatihsengun.entity.RefreshToken;
 import com.fatihsengun.entity.User;
 import com.fatihsengun.enums.Role;
+import com.fatihsengun.exception.BaseException;
+import com.fatihsengun.exception.ErrorMessage;
+import com.fatihsengun.exception.MessageType;
 import com.fatihsengun.jwt.JwtService;
 import com.fatihsengun.repository.RefreshTokenRepository;
 import com.fatihsengun.repository.UserRepository;
@@ -44,27 +47,22 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public AuthResponse login(DtoLogin dtoLogin) {
-        try {
+
             UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(dtoLogin.getEmail(), dtoLogin.getPassword());
             authenticationProvider.authenticate(auth);
 
             User user = userRepository.findByEmail(dtoLogin.getEmail())
-                    .orElse(null);
+                    .orElseThrow(() -> new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST, "user not exist")));
             Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findRefreshTokenByUserId(user.getId());
 
             if (optionalRefreshToken.isPresent()) {
                 refreshTokenRepository.delete(optionalRefreshToken.get());
             }
 
-
             String accessToken = jwtService.generateToken(user);
             String refreshToken = refreshTokenService.saveRefreshToken(user).getRefreshToken();
             return new AuthResponse(accessToken, refreshToken);
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
     }
 
     @Override
@@ -77,11 +75,9 @@ public class UserServiceImpl implements IUserService {
         user.setEmail(dtoRegister.getEmail());
 
         userRepository.save(user);
+        String accessToken = jwtService.generateToken(user);
+        String refreshToken = refreshTokenService.saveRefreshToken(user).getRefreshToken();
 
-        DtoLogin dtoLogin = new DtoLogin();
-        dtoLogin.setEmail(dtoRegister.getEmail());
-        dtoLogin.setPassword(dtoRegister.getPassword());
-
-        return login(dtoLogin);
+        return new AuthResponse(accessToken, refreshToken);
     }
 }
