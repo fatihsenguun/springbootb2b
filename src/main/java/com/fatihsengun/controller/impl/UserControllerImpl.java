@@ -1,9 +1,11 @@
 package com.fatihsengun.controller.impl;
 
 import com.fatihsengun.controller.IUserController;
+import com.fatihsengun.controller.RestRootResponseController;
 import com.fatihsengun.dto.AuthResponse;
 import com.fatihsengun.dto.DtoLogin;
 import com.fatihsengun.dto.DtoRegister;
+import com.fatihsengun.entity.RootResponseEntity;
 import com.fatihsengun.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserControllerImpl implements IUserController {
+public class UserControllerImpl extends RestRootResponseController implements IUserController {
 
     @Autowired
     private UserServiceImpl userService;
@@ -21,13 +23,13 @@ public class UserControllerImpl implements IUserController {
 
     @Override
     @PostMapping("/login")
-    public AuthResponse login(@Valid @RequestBody DtoLogin dtoLogin) {
-        return userService.login(dtoLogin);
+    public  RootResponseEntity<AuthResponse> login(@Valid @RequestBody DtoLogin dtoLogin) {
+        return ok(userService.login(dtoLogin));
     }
 
     @Override
     @PostMapping("/register")
-    public AuthResponse register(@Valid @RequestBody DtoRegister dtoRegister) {
-        return userService.register(dtoRegister);
+    public RootResponseEntity<AuthResponse> register(@Valid @RequestBody DtoRegister dtoRegister) {
+        return ok(userService.register(dtoRegister));
     }
 }
