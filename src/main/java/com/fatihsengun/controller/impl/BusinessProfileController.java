@@ -6,7 +6,10 @@ import com.fatihsengun.dto.DtoBusinessProfileIU;
 import com.fatihsengun.entity.RootResponseEntity;
 import com.fatihsengun.service.IBusinessProfileService;
 import com.fatihsengun.service.impl.BusinessProfileServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +22,8 @@ public class BusinessProfileController extends RootResponseEntity implements IBu
 
 
     @Override
-    public RootResponseEntity<DtoBusinessProfile> create(DtoBusinessProfileIU dtoBusinessProfileIU) {
+    @PostMapping("/create")
+    public RootResponseEntity<DtoBusinessProfile> create(@Valid @RequestBody DtoBusinessProfileIU dtoBusinessProfileIU) {
         return ok(businessProfileService.createBusinessProfile(dtoBusinessProfileIU));
     }
 }

@@ -24,7 +24,7 @@ public class DtoBusinessProfile {
 
     private String website;
 
-    private User user;
+    private DtoUser user;
 
     private Double averageRating = 0.0;
 }
