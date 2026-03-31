@@ -11,7 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class BusinessProfile extends BaseEntity{
-
     @Column(nullable = false)
     private String companyName;
 
@@ -28,9 +27,7 @@ public class BusinessProfile extends BaseEntity{
     @Builder.Default
     private Double averageRating = 0.0;
 
-    // The critical link back to the owning User account (Fixes the crash)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 }
