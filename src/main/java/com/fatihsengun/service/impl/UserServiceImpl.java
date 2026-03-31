@@ -3,9 +3,11 @@ package com.fatihsengun.service.impl;
 import com.fatihsengun.dto.AuthResponse;
 import com.fatihsengun.dto.DtoLogin;
 import com.fatihsengun.dto.DtoRegister;
+import com.fatihsengun.entity.RefreshToken;
 import com.fatihsengun.entity.User;
 import com.fatihsengun.enums.Role;
 import com.fatihsengun.jwt.JwtService;
+import com.fatihsengun.repository.RefreshTokenRepository;
 import com.fatihsengun.repository.UserRepository;
 import com.fatihsengun.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 
 @Service
@@ -31,6 +35,12 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
 
     @Override
     public AuthResponse login(DtoLogin dtoLogin) {
@@ -41,8 +51,16 @@ public class UserServiceImpl implements IUserService {
 
             User user = userRepository.findByEmail(dtoLogin.getEmail())
                     .orElse(null);
+            Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findRefreshTokenByUserId(user.getId());
+
+            if (optionalRefreshToken.isPresent()) {
+                refreshTokenRepository.delete(optionalRefreshToken.get());
+            }
+
+
             String accessToken = jwtService.generateToken(user);
-            return new AuthResponse(accessToken, "");
+            String refreshToken = refreshTokenService.saveRefreshToken(user).getRefreshToken();
+            return new AuthResponse(accessToken, refreshToken);
         } catch (Exception e) {
             System.out.println(e);
             return null;

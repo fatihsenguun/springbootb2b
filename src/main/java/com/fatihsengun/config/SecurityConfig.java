@@ -17,7 +17,7 @@ public class SecurityConfig {
     public static final String[] WHITE_LIST_URLS = {
             "/login",
             "/register",
-            "/refresh_token",
+            "/refresh",
             "/v3/api-docs",
             "/v3/api-docs/**",
             "/swagger-resources",
