@@ -15,7 +15,6 @@ public class DtoProduct  {
 
 
     private UUID id;
-
     private String name;
 
     private String description;
@@ -27,5 +26,5 @@ public class DtoProduct  {
     private UUID shopId;
     private String shopName;
 
-    private List<DtoTieredPrice> tieredPrice = new ArrayList<>();
+    private List<DtoTieredPrice> tieredPrices = new ArrayList<>();
 }
