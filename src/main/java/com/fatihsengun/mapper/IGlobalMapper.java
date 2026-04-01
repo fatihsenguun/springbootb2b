@@ -4,6 +4,7 @@ import com.fatihsengun.dto.*;
 import com.fatihsengun.entity.BusinessProfile;
 import com.fatihsengun.entity.Product;
 import com.fatihsengun.entity.User;
+import jdk.jfr.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -23,5 +24,13 @@ public interface IGlobalMapper {
     DtoProduct toDtoProduct(Product product);
 
     Product toProductEntity(DtoProductIU dtoProductIU);
+
+    @Mapping(source = "parentCategory.id", target = "parentId")
+    DtoCategory toDtoCategory(Category category);
+
+    @Mapping(target = "parentCategory", ignore = true)
+    @Mapping(target = "subCategories", ignore = true)
+    @Mapping(target = "products", ignore = true)
+    Category toCategoryEntity(DtoCategoryIU dtoCategoryIU);
 
 }
