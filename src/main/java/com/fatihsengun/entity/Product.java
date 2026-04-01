@@ -21,8 +21,9 @@ public class Product extends BaseEntity {
     @Column(length = 2000)
     private String description;
 
-    @Column(nullable = false)
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Version
     private Long version;
@@ -36,4 +37,6 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<TieredPrice> tieredPrices = new ArrayList<>();
+
+
 }

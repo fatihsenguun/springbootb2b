@@ -1,6 +1,5 @@
 package com.fatihsengun.dto;
 
-import com.fatihsengun.entity.BaseEntity;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -19,7 +18,8 @@ public class DtoProduct  {
 
     private String description;
 
-    private String category;
+    private UUID categoryId;
+    private String categoryName;
 
     private Long version;
 

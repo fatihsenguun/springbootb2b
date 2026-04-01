@@ -24,8 +24,8 @@ public class DtoProductIU {
     @NotBlank(message = "Product description is required")
     private String description;
 
-    @NotBlank(message = "Category is required")
-    private String category;
+    @NotBlank(message = "Category ID is required")
+    private UUID category;
 
     @Valid
     @NotEmpty(message = "You must provide at least one price tier")
