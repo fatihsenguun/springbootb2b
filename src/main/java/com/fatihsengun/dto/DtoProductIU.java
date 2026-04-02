@@ -3,6 +3,7 @@ package com.fatihsengun.dto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class DtoProductIU {
     @NotBlank(message = "Product description is required")
     private String description;
 
-    @NotBlank(message = "Category ID is required")
+    @NotNull(message = "Category ID is required")
     private UUID category;
 
     @Valid

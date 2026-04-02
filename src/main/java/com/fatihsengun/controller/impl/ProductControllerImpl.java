@@ -8,11 +8,13 @@ import com.fatihsengun.entity.RootResponseEntity;
 import com.fatihsengun.service.impl.ProductServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/product")
@@ -27,5 +29,18 @@ public class ProductControllerImpl extends RestRootResponseController implements
     public RootResponseEntity<DtoProduct> save(@Valid @RequestBody DtoProductIU dtoProductIU) {
 
         return ok(productService.save(dtoProductIU));
+    }
+
+    @GetMapping("/all")
+    public RootResponseEntity<Page<DtoProduct>> getAll(
+            @PageableDefault(size = 20, sort = "name") Pageable pageable) {
+        return ok(productService.findAll(pageable));
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public RootResponseEntity<Page<DtoProduct>> getByCategory(
+            @PathVariable UUID categoryId,
+            @PageableDefault(size = 20) Pageable pageable) {
+        return ok(productService.findByCategory(categoryId, pageable));
     }
 }
