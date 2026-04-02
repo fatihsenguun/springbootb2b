@@ -1,10 +1,7 @@
 package com.fatihsengun.mapper;
 
 import com.fatihsengun.dto.*;
-import com.fatihsengun.entity.BusinessProfile;
-import com.fatihsengun.entity.Category;
-import com.fatihsengun.entity.Product;
-import com.fatihsengun.entity.User;
+import com.fatihsengun.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -37,5 +34,9 @@ public interface IGlobalMapper {
     @Mapping(target = "subCategories", ignore = true)
     @Mapping(target = "products", ignore = true)
     Category toCategoryEntity(DtoCategoryIU dtoCategoryIU);
+
+    DtoOrder toDtoOrder(Order order);
+
+    Order toOrderEntity(DtoOrderIU dtoOrderIU);
 
 }
