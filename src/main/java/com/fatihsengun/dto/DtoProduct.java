@@ -18,6 +18,10 @@ public class DtoProduct  {
 
     private String description;
 
+    private Integer stock;
+
+    private Integer totalSalesCount;
+
     private UUID categoryId;
     private String categoryName;
 

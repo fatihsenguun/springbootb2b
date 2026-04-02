@@ -1,6 +1,7 @@
 package com.fatihsengun.dto;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +28,10 @@ public class DtoProductIU {
 
     @NotNull(message = "Category ID is required")
     private UUID category;
+
+    @NotNull
+    @Min(value = 0, message = "Stock levels cannot be negative.")
+    private Integer stock;
 
     @Valid
     @NotEmpty(message = "You must provide at least one price tier")

@@ -14,6 +14,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     Page<Product> findByShopId(UUID shopId, Pageable pageable);
 
+
+    List<Product> findByIdIn(List<UUID> productIds);
     // 2. Get all products in a category (paginated)
     Page<Product> findByCategoryIdIn(List<UUID> categoryIds, Pageable pageable);
     // 3. Search products by name (case-insensitive)

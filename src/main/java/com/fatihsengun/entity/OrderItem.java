@@ -23,12 +23,10 @@ public class OrderItem extends BaseEntity {
     private Product product;
 
     @Column(nullable = false)
+    private BigDecimal priceAtPurchase;
+
+    @Column(nullable = false)
     private Integer quantity;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal unitPrice;
 
-
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal totalPrice;
 }

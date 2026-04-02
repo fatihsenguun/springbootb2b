@@ -28,6 +28,14 @@ public class Product extends BaseEntity {
     @Version
     private Long version;
 
+    @Column(nullable = false)
+    private Integer stock;
+
+    @Column(name = "total_sales_count", nullable = false, columnDefinition = "int default 0")
+    private Integer totalSalesCount = 0;
+
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
+    private boolean isDeleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_profile_id", nullable = false)
