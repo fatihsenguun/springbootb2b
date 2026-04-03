@@ -39,4 +39,8 @@ public interface IGlobalMapper {
 
     Order toOrderEntity(DtoOrderIU dtoOrderIU);
 
+    @Mapping(source = "product.id", target = "productId")
+    @Mapping(source = "product.name", target = "productName")
+    DtoOrderItem toDtoOrderItem(OrderItem orderItem);
+
 }

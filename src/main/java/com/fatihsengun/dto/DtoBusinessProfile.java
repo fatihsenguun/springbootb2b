@@ -16,8 +16,6 @@ public class DtoBusinessProfile {
 
     private String companyName;
 
-    private String taxNumber;
-
     private String bio;
 
     private String logoUrl;

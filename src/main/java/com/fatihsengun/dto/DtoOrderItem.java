@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,9 +20,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class DtoOrderItem extends BaseEntity {
 
-    private DtoProduct product;
+    private UUID productId;
+    private String productName;
 
     private Integer quantity;
-
     private BigDecimal priceAtPurchase;
 }

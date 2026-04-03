@@ -52,6 +52,7 @@ public class ProductServiceImpl implements IProductService {
 
         product.setShop(businessProfile);
         product.setCategory(category);
+        product.setTotalSalesCount(0);
         if (product.getTieredPrices() != null) {
             for (TieredPrice price : product.getTieredPrices()) {
                 price.setProduct(product);
@@ -60,6 +61,7 @@ public class ProductServiceImpl implements IProductService {
 
 
         Product savedProduct = productRepository.save(product);
+
         return globalMapper.toDtoProduct(savedProduct);
     }
 

@@ -22,11 +22,10 @@ public class DtoOrder extends BaseEntity {
     private String orderNumber;
 
     private UUID buyerId;
-    private String buyerFirstName;
-    private String buyerLastName;
+    private String buyerName;
 
-    private UUID shopId;
-    private String shopName;
+
+    private DtoBusinessProfile shop;
 
     private BigDecimal totalAmount;
     private OrderStatus status;
