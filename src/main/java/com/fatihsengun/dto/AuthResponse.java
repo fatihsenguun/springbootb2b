@@ -1,5 +1,6 @@
 package com.fatihsengun.dto;
 
+import com.fatihsengun.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
