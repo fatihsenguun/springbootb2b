@@ -123,6 +123,40 @@ public class OrderServiceImpl implements IOrderService {
         return dtoOrder;
     }
 
+    @Override
+    public List<DtoOrder> getMyPurchases() {
+        User currentUser = identityService.getCurrentUser();
+        List<Order> orders = orderRepository.findAllByBuyerIdOrderByCreatedAtDesc(currentUser.getId());
+
+        return orders.stream().map(order -> {
+            DtoOrder dtoOrder = globalMapper.toDtoOrder(order);
+
+            dtoOrder.setBuyerId(currentUser.getId());
+            dtoOrder.setBuyerName(currentUser.getFullName());
+            return dtoOrder;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DtoOrder> getMySales() {
+        User currentUser = identityService.getCurrentUser();
+        BusinessProfile shop = currentUser.getBusinessProfile();
+
+        if (shop == null) {
+            throw new BaseException(new ErrorMessage(MessageType.GENERAL_EXCEPTION, "You do not have a registered shop profile."));
+        }
+        List<Order> orders = orderRepository.findAllByShopIdOrderByCreatedAtDesc(shop.getId());
+
+        return orders.stream().map(order -> {
+            DtoOrder dtoOrder = globalMapper.toDtoOrder(order);
+
+            dtoOrder.setBuyerId(order.getBuyer().getId());
+            dtoOrder.setBuyerName(order.getBuyer().getFullName());
+
+            return dtoOrder;
+        }).collect(Collectors.toList());
+    }
+
     /**
      * Helper Method: Finds the correct unit price based on volume quantity.
      */

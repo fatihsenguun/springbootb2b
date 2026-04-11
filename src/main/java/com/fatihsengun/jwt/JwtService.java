@@ -18,7 +18,12 @@ public class JwtService {
     public static final String SECRET_KEY = "KtRH5USEtAUzn5f0tKNNDVCekRdE5Irpme7JP7CIi6o=KtRH5USEtAUzn5f0tKNNDVCekRdE5Irpme7JP7CIi6o=";
 
     public String generateToken(UserDetails userDetails) {
+
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+
+
         return Jwts.builder()
+                .claim("role", role)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))
@@ -41,6 +46,10 @@ public class JwtService {
         return claimsTFunction.apply(claims);
     }
 
+
+    public String getRoleByToken(String token) {
+        return exportToken(token, claims -> claims.get("role", String.class));
+    }
 
     public String getUsernameByToken(String token){return exportToken(token,Claims::getSubject);}
 
